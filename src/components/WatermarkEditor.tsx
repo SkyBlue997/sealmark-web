@@ -162,7 +162,7 @@ export function WatermarkEditor() {
             {/* Auto Rotate Switch */}
             <Switch
               label="自动旋转图片"
-              description="根据EXIF信息校正图片方向（手机拍摄的照片建议开启）"
+              description="根据EXIF信息校正图片方向"
               checked={imageSettings.applyExifRotation}
               onChange={imageSettings.setApplyExifRotation}
             />
@@ -192,7 +192,7 @@ export function WatermarkEditor() {
               label="大小"
               value={watermarkState.fontSize}
               min={10}
-              max={64}
+              max={120}
               unit="px"
               onChange={watermarkState.setFontSize}
             />

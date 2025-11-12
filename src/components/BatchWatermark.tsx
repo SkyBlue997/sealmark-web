@@ -233,7 +233,7 @@ export function BatchWatermark() {
           <div style={{ padding: '0 var(--space-4)' }}>
             <Switch
               label="自动旋转图片"
-              description="根据EXIF信息校正图片方向（手机拍摄的照片建议开启）"
+              description="根据EXIF信息校正图片方向"
               checked={imageSettings.applyExifRotation}
               onChange={imageSettings.setApplyExifRotation}
             />

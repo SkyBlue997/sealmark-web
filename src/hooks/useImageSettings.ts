@@ -12,7 +12,7 @@ export interface ImageSettings {
 }
 
 const defaultSettings = {
-  applyExifRotation: true, // 默认开启自动旋转，确保图片按拍摄方向显示
+  applyExifRotation: false, // 默认关闭自动旋转，保持图片原始方向
 }
 
 export const useImageSettings = create<ImageSettings>((set) => ({
