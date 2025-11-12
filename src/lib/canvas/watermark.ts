@@ -81,9 +81,9 @@ export function drawWatermark(
   if (!text.trim()) return
 
   // 自适应缩放：根据图片尺寸调整水印参数
-  // 基准宽度设为 3000px，所有参数基于此缩放
+  // 基准宽度设为 3000px，小图不缩小（最小1.0），大图按比例放大
   const baseWidth = 3000
-  const scaleFactor = Math.min(width, height) / baseWidth
+  const scaleFactor = Math.max(1.0, Math.min(width, height) / baseWidth)
 
   // 缩放后的实际参数
   const scaledFontSize = fontSize * scaleFactor
