@@ -1,0 +1,94 @@
+/**
+ * Switch component styles
+ */
+
+.switch-container {
+  width: 100%;
+}
+
+.switch-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: var(--space-4);
+  min-height: var(--touch-target-min);
+}
+
+.switch-text {
+  flex: 1;
+}
+
+.switch-label {
+  display: block;
+  font-size: var(--font-size-base);
+  font-weight: var(--font-weight-medium);
+  color: var(--text-primary);
+  cursor: pointer;
+  line-height: var(--line-height-tight);
+}
+
+.switch-description {
+  font-size: var(--font-size-sm);
+  color: var(--text-secondary);
+  margin-top: var(--space-1);
+  line-height: var(--line-height-base);
+}
+
+.switch-button {
+  position: relative;
+  width: 51px;
+  height: 31px;
+  background-color: var(--border-primary);
+  border-radius: var(--radius-full);
+  border: none;
+  cursor: pointer;
+  transition: background-color var(--transition-fast);
+  flex-shrink: 0;
+  padding: 0;
+}
+
+.switch-button:hover {
+  background-color: var(--border-secondary);
+}
+
+.switch-button:focus-visible {
+  outline: 2px solid var(--border-focus);
+  outline-offset: 2px;
+}
+
+.switch-button.switch-checked {
+  background-color: var(--accent-primary);
+}
+
+.switch-button.switch-checked:hover {
+  background-color: var(--accent-hover);
+}
+
+.switch-button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.switch-thumb {
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  width: 27px;
+  height: 27px;
+  background-color: var(--bg-primary);
+  border-radius: 50%;
+  transition: transform var(--transition-fast);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+}
+
+.switch-checked .switch-thumb {
+  transform: translateX(20px);
+}
+
+.switch-button:active .switch-thumb {
+  width: 31px;
+}
+
+.switch-button.switch-checked:active .switch-thumb {
+  transform: translateX(16px);
+}

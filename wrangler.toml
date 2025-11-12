@@ -1,0 +1,14 @@
+# Cloudflare Pages 配置文件
+name = "apple-watermark-web"
+compatibility_date = "2025-01-12"
+
+[site]
+bucket = "./dist"
+
+# 构建配置
+[build]
+command = "npm run build"
+cwd = "."
+
+[build.upload]
+format = "service-worker"

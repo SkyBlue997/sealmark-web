@@ -1,0 +1,23 @@
+version: '3.8'
+
+services:
+  apple-watermark-web:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: apple-watermark-web:latest
+    container_name: apple-watermark-web
+    ports:
+      - "${PORT:-3366}:3366"
+    restart: unless-stopped
+    environment:
+      - NODE_ENV=production
+    healthcheck:
+      test: ["CMD", "wget", "--quiet", "--tries=1", "--spider", "http://localhost:3366/"]
+      interval: 30s
+      timeout: 3s
+      retries: 3
+      start_period: 5s
+    labels:
+      - "com.apple-watermark.description=Apple-styled watermark web application"
+      - "com.apple-watermark.version=1.0.0"

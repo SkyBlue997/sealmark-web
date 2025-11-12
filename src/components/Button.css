@@ -1,0 +1,98 @@
+/**
+ * Button component styles
+ */
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  font-family: var(--font-family-base);
+  font-weight: var(--font-weight-medium);
+  border: none;
+  border-radius: var(--radius-lg);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  white-space: nowrap;
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.btn:focus-visible {
+  outline: 2px solid var(--border-focus);
+  outline-offset: 2px;
+}
+
+.btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* Sizes */
+.btn-small {
+  font-size: var(--font-size-sm);
+  padding: var(--space-2) var(--space-3);
+  min-height: 36px;
+}
+
+.btn-medium {
+  font-size: var(--font-size-base);
+  padding: var(--space-3) var(--space-5);
+  min-height: var(--touch-target-min);
+}
+
+.btn-large {
+  font-size: var(--font-size-lg);
+  padding: var(--space-4) var(--space-6);
+  min-height: 52px;
+}
+
+/* Variants */
+.btn-primary {
+  background-color: var(--accent-primary);
+  color: var(--text-inverse);
+}
+
+.btn-primary:hover:not(:disabled) {
+  background-color: var(--accent-hover);
+}
+
+.btn-primary:active:not(:disabled) {
+  background-color: var(--accent-active);
+  transform: scale(0.98);
+}
+
+.btn-secondary {
+  background-color: var(--surface-secondary);
+  color: var(--text-primary);
+  border: 1px solid var(--border-primary);
+}
+
+.btn-secondary:hover:not(:disabled) {
+  background-color: var(--surface-hover);
+  border-color: var(--border-secondary);
+}
+
+.btn-secondary:active:not(:disabled) {
+  background-color: var(--surface-active);
+  transform: scale(0.98);
+}
+
+.btn-ghost {
+  background-color: transparent;
+  color: var(--accent-primary);
+}
+
+.btn-ghost:hover:not(:disabled) {
+  background-color: var(--surface-hover);
+}
+
+.btn-ghost:active:not(:disabled) {
+  background-color: var(--surface-active);
+  transform: scale(0.98);
+}
+
+/* Full width */
+.btn-full-width {
+  width: 100%;
+}

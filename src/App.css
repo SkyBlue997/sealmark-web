@@ -1,0 +1,24 @@
+/**
+ * Main application styles
+ */
+
+.app {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background-color: var(--bg-primary);
+}
+
+.app-content {
+  flex: 1;
+  padding-top: var(--header-height);
+  padding-bottom: var(--bottom-tabs-height);
+  overflow-y: auto;
+}
+
+/* Ensure smooth scrolling */
+@media (prefers-reduced-motion: no-preference) {
+  .app-content {
+    scroll-behavior: smooth;
+  }
+}
