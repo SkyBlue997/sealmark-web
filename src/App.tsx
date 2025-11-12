@@ -102,19 +102,6 @@ const tabTitles: Record<TabId, string> = {
 function App() {
   const [activeTab, setActiveTab] = useState<TabId>('single')
 
-  const renderContent = () => {
-    switch (activeTab) {
-      case 'single':
-        return <WatermarkEditor />
-      case 'batch':
-        return <BatchWatermark />
-      case 'discovery':
-        return <Discovery />
-      default:
-        return <WatermarkEditor />
-    }
-  }
-
   return (
     <div className="app">
       <TopBar title={tabTitles[activeTab]} />
