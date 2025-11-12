@@ -42,21 +42,27 @@ export async function getExifOrientation(file: File): Promise<ExifOrientation> {
 /**
  * Load image from file and read its EXIF orientation
  */
-export async function loadImageWithOrientation(file: File): Promise<ImageWithOrientation> {
+export async function loadImageWithOrientation(
+  file: File,
+  applyRotation = false
+): Promise<ImageWithOrientation> {
   const [image, orientation] = await Promise.all([
     loadImage(file),
     getExifOrientation(file),
   ])
 
+  // 如果不应用旋转，强制使用正常方向
+  const actualOrientation = applyRotation ? orientation : 1
+
   const { width, height } = getOrientedDimensions(
     image.naturalWidth,
     image.naturalHeight,
-    orientation
+    actualOrientation
   )
 
   return {
     image,
-    orientation,
+    orientation: actualOrientation,
     width,
     height,
   }

@@ -11,6 +11,7 @@ import { Textarea } from './Input'
 import { Button } from './Button'
 import { useToast } from './Toaster'
 import { useWatermarkState } from '../hooks/useWatermarkState'
+import { useImageSettings } from '../hooks/useImageSettings'
 import { loadImageWithOrientation, type ImageWithOrientation } from '../lib/canvas/exif'
 import { applyWatermark, downloadCanvas } from '../lib/canvas/watermark'
 import { formatFileSize } from '../lib/zip'
@@ -25,12 +26,13 @@ export function WatermarkEditor() {
 
   const toast = useToast()
   const watermarkState = useWatermarkState()
+  const imageSettings = useImageSettings()
 
   // Load image when file is selected
   const handleImageSelect = async (file: File) => {
     try {
       setIsProcessing(true)
-      const imageData = await loadImageWithOrientation(file)
+      const imageData = await loadImageWithOrientation(file, imageSettings.applyExifRotation)
       setImageInfo(imageData)
       setOriginalFile(file)
       toast.success('图片加载成功')
@@ -41,6 +43,14 @@ export function WatermarkEditor() {
       setIsProcessing(false)
     }
   }
+
+  // Reload image when rotation setting changes
+  useEffect(() => {
+    if (originalFile) {
+      handleImageSelect(originalFile)
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [imageSettings.applyExifRotation])
 
   // Apply watermark when settings change
   useEffect(() => {
@@ -70,22 +80,19 @@ export function WatermarkEditor() {
     return () => clearTimeout(applyWatermarkDebounced)
   }, [imageInfo, watermarkState, toast])
 
-  // Render preview canvas
+  // Render preview canvas (保持原始分辨率，避免模糊)
   useEffect(() => {
     if (!previewCanvas || !canvasRef.current) return
 
     const ctx = canvasRef.current.getContext('2d')
     if (!ctx) return
 
-    // Scale canvas to fit container while maintaining aspect ratio
-    const maxWidth = canvasRef.current.parentElement?.clientWidth || 800
-    const maxHeight = 500
-    const scale = Math.min(maxWidth / previewCanvas.width, maxHeight / previewCanvas.height, 1)
+    // 保持原始canvas分辨率
+    canvasRef.current.width = previewCanvas.width
+    canvasRef.current.height = previewCanvas.height
 
-    canvasRef.current.width = previewCanvas.width * scale
-    canvasRef.current.height = previewCanvas.height * scale
-
-    ctx.drawImage(previewCanvas, 0, 0, canvasRef.current.width, canvasRef.current.height)
+    // 直接绘制原始尺寸，不缩放
+    ctx.drawImage(previewCanvas, 0, 0)
   }, [previewCanvas])
 
   const handleSave = async () => {
@@ -150,6 +157,14 @@ export function WatermarkEditor() {
               description="开启后水印将平铺整张图片"
               checked={watermarkState.tiled}
               onChange={watermarkState.setTiled}
+            />
+
+            {/* Auto Rotate Switch */}
+            <Switch
+              label="自动旋转图片"
+              description="根据EXIF信息校正图片方向（手机拍摄的照片建议开启）"
+              checked={imageSettings.applyExifRotation}
+              onChange={imageSettings.setApplyExifRotation}
             />
 
             {/* Sliders */}

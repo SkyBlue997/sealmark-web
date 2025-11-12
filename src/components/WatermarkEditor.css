@@ -57,7 +57,12 @@
 .preview-canvas {
   max-width: 100%;
   max-height: 500px;
+  width: auto;
+  height: auto;
   object-fit: contain;
+  /* 使用CSS缩放，保持canvas原始分辨率清晰 */
+  image-rendering: high-quality;
+  image-rendering: -webkit-optimize-contrast;
 }
 
 .image-info {

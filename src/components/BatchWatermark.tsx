@@ -5,8 +5,10 @@
 import { useState } from 'react'
 import { ImagePicker } from './ImagePicker'
 import { Button } from './Button'
+import { Switch } from './Switch'
 import { useToast } from './Toaster'
 import { useWatermarkOptions } from '../hooks/useWatermarkState'
+import { useImageSettings } from '../hooks/useImageSettings'
 import { loadImageWithOrientation, type ImageWithOrientation } from '../lib/canvas/exif'
 import { applyWatermark, canvasToBlob } from '../lib/canvas/watermark'
 import { createZipFromImages, generateFilename, formatFileSize } from '../lib/zip'
@@ -26,6 +28,7 @@ export function BatchWatermark() {
   const [isProcessing, setIsProcessing] = useState(false)
   const toast = useToast()
   const watermarkOptions = useWatermarkOptions()
+  const imageSettings = useImageSettings()
 
   const handleImageSelect = async (file: File) => {
     const id = Math.random().toString(36).substring(7)
@@ -38,7 +41,7 @@ export function BatchWatermark() {
     setImages((prev) => [...prev, newImage])
 
     try {
-      const imageData = await loadImageWithOrientation(file)
+      const imageData = await loadImageWithOrientation(file, imageSettings.applyExifRotation)
       const previewUrl = URL.createObjectURL(file)
 
       setImages((prev) =>
@@ -225,6 +228,16 @@ export function BatchWatermark() {
               </div>
             </div>
           )}
+
+          {/* Image Settings */}
+          <div style={{ padding: '0 var(--space-4)' }}>
+            <Switch
+              label="自动旋转图片"
+              description="根据EXIF信息校正图片方向（手机拍摄的照片建议开启）"
+              checked={imageSettings.applyExifRotation}
+              onChange={imageSettings.setApplyExifRotation}
+            />
+          </div>
 
           {/* Action Buttons */}
           <div className="batch-actions">

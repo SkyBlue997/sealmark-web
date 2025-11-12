@@ -80,36 +80,47 @@ export function drawWatermark(
 
   if (!text.trim()) return
 
+  // 自适应缩放：根据图片尺寸调整水印参数
+  // 基准宽度设为 3000px，所有参数基于此缩放
+  const baseWidth = 3000
+  const scaleFactor = Math.min(width, height) / baseWidth
+
+  // 缩放后的实际参数
+  const scaledFontSize = fontSize * scaleFactor
+  const scaledSpacing = spacing * scaleFactor
+  const scaledLineHeight = lineHeight * scaleFactor
+  const scaledStrokeWidth = strokeWidth * scaleFactor
+
   // Process text - replace date/time placeholders
   const processedText = replaceDateTimePlaceholders(text)
   const lines = processedText.split('\n').filter((line) => line.trim())
 
   if (lines.length === 0) return
 
-  // Setup text rendering
-  ctx.font = `${fontSize}px -apple-system, BlinkMacSystemFont, 'SF Pro Text', Arial, sans-serif`
+  // Setup text rendering (使用缩放后的字体大小)
+  ctx.font = `${scaledFontSize}px -apple-system, BlinkMacSystemFont, 'SF Pro Text', Arial, sans-serif`
   ctx.fillStyle = color
   ctx.globalAlpha = opacity / 100
   ctx.textAlign = 'center'
   ctx.textBaseline = 'middle'
 
-  if (strokeWidth > 0) {
+  if (scaledStrokeWidth > 0) {
     ctx.strokeStyle = strokeColor
-    ctx.lineWidth = strokeWidth
+    ctx.lineWidth = scaledStrokeWidth
   }
 
   if (tiled) {
     drawTiledWatermark(ctx, width, height, lines, {
-      spacing,
-      lineHeight,
+      spacing: scaledSpacing,
+      lineHeight: scaledLineHeight,
       angle,
-      strokeWidth,
+      strokeWidth: scaledStrokeWidth,
     })
   } else {
     drawCenteredWatermark(ctx, width, height, lines, {
-      lineHeight,
+      lineHeight: scaledLineHeight,
       angle,
-      strokeWidth,
+      strokeWidth: scaledStrokeWidth,
     })
   }
 
